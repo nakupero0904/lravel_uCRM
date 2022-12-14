@@ -6,11 +6,15 @@ use Inertia\Inertia;
 use App\Http\Controllers\InertiaTestController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\PurchaseController;
 
 Route::resource('items', ItemController::class)
 ->middleware(['auth', 'verified']);//認証判定
 
 Route::resource('customers', CustomerController::class)
+->middleware(['auth', 'verified']);//認証判定
+
+Route::resource('purchases', PurchaseController::class)
 ->middleware(['auth', 'verified']);//認証判定
 
 Route::get('/inertia-test', function () {
