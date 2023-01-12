@@ -2,16 +2,33 @@
 import axios from 'axios';
 import { ref, reactive, onMounted } from 'vue'
 
-onMounted(() => {
-  axios.get('/api/user')
-  .then( res => {
-    console.log(res.data)
-  })
+const search = ref('')
+const customers = reactive({})
 
-})
+//onMounted(() => {
+//  axios.get('/api/user')
+//  .then( res => {
+//    console.log(res.data)
+//  })
+//})
 
 const isShow = ref(false)
 const toggleStatus = () => { isShow.value = !isShow.value}
+
+const searchCustomers = async () => {
+  try {
+  //await axios.get(`/api/user`)
+  //await axios.get('/api/searchCustomers')
+  await axios.get(`/api/searchCustomers/?search=${search.value}`)
+  .then( res => {
+    console.log(res.data)
+    customers.value = res.data
+  })
+  toggleStatus()
+  } catch(e){
+    console.log(e)
+  }
+}
 
 </script>
 
@@ -37,5 +54,6 @@ const toggleStatus = () => { isShow.value = !isShow.value}
       </div>
     </div>
   </div>
-  <button @click="toggleStatus" type="button" data-micromodal-trigger="modal-1" class="flex mx-auto text-white bg-teal-500 border-0 py-2 px-8 focus:outline-none hover:bg-teal-600 rounded text-lg">検索する</button>
+  <input name="customer" v-model="search">
+  <button @click="searchCustomers" type="button" >検索</button>
 </template>
